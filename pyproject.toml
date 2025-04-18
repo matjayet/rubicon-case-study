@@ -1,0 +1,22 @@
+[project]
+name = "rubicon-case-study"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Mathieu Jayet",email = "mathieu.jayet@yahoo.fr"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "sentinelhub (>=3.11.1,<4.0.0)",
+    "geopandas (>=1.0.1,<2.0.0)",
+    "rasterio (>=1.4.3,<2.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [{include = "rubicon_cs", from="src"}]

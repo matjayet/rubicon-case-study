@@ -8,6 +8,16 @@ import matplotlib.pyplot as plt
 import io
 from PIL import Image
 
+# Imprimer tous les secrets pour voir leur structure
+st.write("Tous les secrets :", st.secrets)
+
+# Vérifier un secret spécifique
+client_id = st.secrets["general"]["SH_CLIENT_ID"]
+client_secret = st.secrets["general"]["SH_CLIENT_SECRET"]
+
+st.write(f"Client ID : {client_id}")
+st.write(f"Client Secret : {client_secret}")
+
 def display_geotiff_streamlit(tiff_path, ncols=2, cmap='Greens', ):
     """
     Affiche les bandes d’un fichier GeoTIFF dans Streamlit.

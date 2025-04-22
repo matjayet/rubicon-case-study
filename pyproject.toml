@@ -11,6 +11,9 @@ dependencies = [
     "sentinelhub (>=3.11.1,<4.0.0)",
     "geopandas (>=1.0.1,<2.0.0)",
     "rasterio (>=1.4.3,<2.0.0)",
+    "opencv-python (>=4.11.0.86,<5.0.0.0)",
+    "satlaspretrain-models (>=0.3.1,<0.4.0)",
+    "torch (>=2.6.0,<3.0.0)",
 ]
 
 

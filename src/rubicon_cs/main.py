@@ -197,8 +197,7 @@ def semantic_segmentation_large_image(image, model, device, patch_size=512):
 
 def get_secret(secret_name):
     # Vérifier si l'application tourne sur Streamlit Cloud
-    if "ST_APP_NAME" in os.environ:
-        # Si c'est Streamlit Cloud, utiliser st.secrets
+    if secret_name in st.secrets:
         return st.secrets[secret_name]
     else:
         # Sinon, essayer de récupérer depuis os.environ (local ou autre environnement)

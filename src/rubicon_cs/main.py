@@ -32,8 +32,10 @@ def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=2
 
     # Set up config
     config = SHConfig()
-    config.sh_client_id = get_secret("SH_CLIENT_ID")
-    config.sh_client_id = get_secret("SH_CLIENT_SECRET")
+    config.sh_client_id = st.secrets["SH_CLIENT_ID"]
+    config.sh_client_id = st.secrets["SH_CLIENT_SECRET"]
+    config.save()
+
 
     # Catalog to find acquisition dates
     catalog = SentinelHubCatalog(config=config)

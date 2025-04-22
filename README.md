@@ -82,9 +82,11 @@ Ce pipeline permet de réaliser une segmentation sémantique sur des **grandes i
 ## Ce que j'aurais aimé faire
 
 - Mettre en place un nettoyage plus rigoureux du code : linting, formatting, et respect des bonnes pratiques de développement (tests unitaires par exemple)
+- Tester la section 2 avec un modèle utilisant plus de bandes que le simple RGB
 - Approfondir ma compréhension des index de végétation et des bandes spectrales : quelles bandes sont utilisées pour quels index, et dans quel contexte.
 - Comparer plus en détail les différents modèles de segmentation sémantique ainsi que les datasets disponibles pour ce type de tâche.
 - Finaliser la section 3 du projet
 - Déployer une API, accompagnée d'une interface via Flask ou Streamlit
+- Rajouter des CLIs pour pouvoir obtenir des résultats rapidement à partir des paramètres date/AOI/index/limite de nuage
 
 

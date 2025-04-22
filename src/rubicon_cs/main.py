@@ -1,13 +1,19 @@
-from sentinelhub import (
-    SentinelHubRequest, SentinelHubCatalog, SHConfig,
-    CRS, Geometry, DataCollection, MimeType
-)
-from rubicon_cs.evalscripts import INDEX_DICT
+import os
 import numpy as np
 import rasterio
-import os
+import torch
 from PIL import Image
-from rubicon_cs.utils import find_nearest_available_date, get_scaled_dimensions
+
+from sentinelhub import (
+    CRS, DataCollection, Geometry, MimeType,
+    SentinelHubCatalog, SentinelHubRequest, SHConfig
+)
+
+from rubicon_cs.evalscripts import INDEX_DICT
+from rubicon_cs.utils import (
+    extract_patches, find_nearest_available_date,
+    get_scaled_dimensions, pad_to_multiple, stitch_patches
+)
 
 def geotiff_for_veg_index(AOI, date_range, veg_index='nvdi', cloud_cover_limit=20):
     """
@@ -71,7 +77,7 @@ def geotiff_for_veg_index(AOI, date_range, veg_index='nvdi', cloud_cover_limit=2
             transform = rasterio.transform.from_bounds(*bounds, width, height)
             crs = geometry.crs.pyproj_crs()
 
-    filename = f"{date_range[0]}_{date_range[1]}_{veg_index}.tif"
+    filename = f"outputs/section_1/{date_range[0]}_{date_range[1]}_{veg_index}.tif"
     # Save as GeoTIFF
     with rasterio.open(
         filename, "w",
@@ -151,4 +157,39 @@ def png_for_target_date(AOI, target_date, cloud_cover_limit=20, rgb_evalscript='
     # Save the image as a PNG
     Image.fromarray(img).save(f'rgb_{date}.png')
     print(f"Saved RGB image for {date} to rgb_{date}.png")
+    return date
 
+# --- Full Inference Function ---
+def semantic_segmentation_large_image(image, model, device, patch_size=512):
+    """
+    image: torch tensor of shape (C, H, W)
+    model: segmentation model that takes input of shape (B, C, patch_size, patch_size)
+    """
+    model.eval()
+    image = image.to(device)
+    
+    # 1. Pad
+    padded_image, pad_h, pad_w = pad_to_multiple(image, patch_size)
+    
+    # 2. Extract patches
+    patches = extract_patches(padded_image, patch_size)
+
+    # 3. Predict each patch
+    predicted_patches = []
+    for (i, j), patch in patches:
+        patch = patch.unsqueeze(0).to(device)  # (1, C, H, W)
+        with torch.no_grad():
+            pred = model(patch)[0]  # (1, num_classes, H, W)
+        predicted_patches.append(((i, j), pred.squeeze().cpu()))
+    
+    # 4. Stitch prediction
+    _, H_padded, W_padded = padded_image.shape
+    stitched = stitch_patches(predicted_patches, (pred.shape[1], H_padded, W_padded), patch_size)
+
+    # 5. Remove padding
+    if pad_h > 0:
+        stitched = stitched[:, :-pad_h, :]
+    if pad_w > 0:
+        stitched = stitched[:, :, :-pad_w]
+
+    return stitched  # (num_classes, H_original, W_original)

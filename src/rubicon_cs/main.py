@@ -3,6 +3,7 @@ import numpy as np
 import rasterio
 import torch
 from PIL import Image
+import streamlit as st
 
 from sentinelhub import (
     CRS, DataCollection, Geometry, MimeType,
@@ -112,8 +113,10 @@ def png_for_target_date(AOI, target_date, cloud_cover_limit=20, rgb_evalscript='
 
     # Set up config
     config = SHConfig()
-    config.sh_client_id = os.environ["SH_CLIENT_ID"]
-    config.sh_client_secret = os.environ["SH_CLIENT_SECRET"]
+    # Exemple d'utilisation
+    config.sh_client_id = get_secret("SH_CLIENT_ID")
+    # Exemple d'utilisation
+    config.sh_client_id = get_secret("SH_CLIENT_SECRET")
 
     # Catalog to find acquisition dates
     catalog = SentinelHubCatalog(config=config)
@@ -193,3 +196,12 @@ def semantic_segmentation_large_image(image, model, device, patch_size=512):
         stitched = stitched[:, :, :-pad_w]
 
     return stitched  # (num_classes, H_original, W_original)
+
+def get_secret(secret_name):
+    # Vérifier si l'application tourne sur Streamlit Cloud
+    if "ST_APP_NAME" in os.environ:
+        # Si c'est Streamlit Cloud, utiliser st.secrets
+        return st.secrets[secret_name]
+    else:
+        # Sinon, essayer de récupérer depuis os.environ (local ou autre environnement)
+        return os.environ[secret_name]

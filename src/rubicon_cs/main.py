@@ -15,7 +15,7 @@ from rubicon_cs.utils import (
     get_scaled_dimensions, pad_to_multiple, stitch_patches
 )
 
-def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=20):
+def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=20, output_dir = 'outputs/section_1'):
     """
     Generate a multi-band GeoTIFF file containing vegetation index images
     for a given area and date range.
@@ -77,7 +77,7 @@ def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=2
             transform = rasterio.transform.from_bounds(*bounds, width, height)
             crs = geometry.crs.pyproj_crs()
 
-    filename = f"outputs/section_1/{date_range[0]}_{date_range[1]}_{veg_index}.tif"
+    filename = f"{output_dir}/{date_range[0]}_{date_range[1]}_{veg_index}.tif"
     # Save as GeoTIFF
     with rasterio.open(
         filename, "w",

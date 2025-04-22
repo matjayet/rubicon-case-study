@@ -38,7 +38,7 @@ def display_geotiff(tiff_path, ncols=2, cmap='Greens'):
             acquisition_date = band_metadata.get("DATE", "No date available")
             
             im = axes[i].imshow(band_data, cmap=cmap, vmin=-1, vmax=1)
-            axes[i].set_title(f"NDVI Index in AOI on {acquisition_date}", fontsize=10)    
+            axes[i].set_title(f"{tiff_path.split('.tif')[-2].split('_')[-1].upper()} Index in AOI on {acquisition_date}", fontsize=10)    
             axes[i].axis('off')  # Turn off the axis
             fig.colorbar(im, ax=axes[i], orientation='horizontal', shrink=0.7, pad=0.05)
 

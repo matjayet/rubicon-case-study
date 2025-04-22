@@ -1,3 +1,5 @@
+# Rubicon case study interview #2
+
 ## rubicon_cs : Module personnalisé
 
 `rubicon_cs` est un module Python personnalisé que j'ai développé pour faciliter l'exécution des notebooks de ce projet. Ce module contient toutes les fonctions nécessaires pour manipuler les données géospatiales, télécharger les images satellite via **SentinelHub**, et effectuer diverses opérations sur les indices de végétation, tout en automatisant la gestion de la taille des images et la segmentation sémantique d'une image à partir d'un modèle pré entrainé
@@ -36,6 +38,18 @@ La fonction `geotiff_for_veg_index` de la bibliothèque `rubicon_cs.main` est ut
 ### 5. Affichage de l'image
 Enfin, l'image est affichée à l'aide de la fonction `display_geotiff` pour visualiser l'indice de végétation sur la période spécifiée.
 
+#### Exemple de résultat du notebook
+
+![NDVI généré par le notebook](notebooks/outputs/section_1/output_section_1.png)
+
+---
+
+#### Image correspondante sur EO Browser
+
+![NDVI EO Browser](notebooks/outputs/section_1/2024-09-15-00_00_2024-09-15-23_59_Sentinel-2_L2A_NDVI.jpg)
+
+Les images sont bien similaires mais n'utilisent pas la même color scale qu'il faudrait récuperer sur sentinelhub et personnaliser
+
 ### Remarques importantes
 - N'oublie pas de mettre à jour le fichier `.env` avec ton **client ID** et ton **secret** pour SentinelHub.
 - Le code peut être ajusté pour prendre en charge d'autres indices de végétation comme **EVI**, **GNDVI**, etc.
@@ -59,5 +73,10 @@ Ce pipeline permet de réaliser une segmentation sémantique sur des **grandes i
 
 5. **Affichage du résultat** :  
    Le masque final est visualisé avec une palette de couleurs et sauvegardé au format **PNG**.
+
+**Exemple**:
+| PNG | Mask |
+|----------------------------------|-------------------------------------|
+| ![Original PNG](notebooks/outputs/section_2/rgb_2022-09-01.png) | ![Mask](notebooks/outputs/section_2/simplified_segmentation_mask_2022-09-01.png) |
 
 

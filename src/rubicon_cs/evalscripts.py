@@ -19,7 +19,7 @@ function evaluatePixel(sample) {
 """
 
 #NDVI (Normalized Difference Vegetation Index)
-evalscript_nvdi = """
+evalscript_ndvi = """
 //VERSION=3
 function setup() {
     return {
@@ -180,7 +180,7 @@ const sRGB = (c) => c <= 0.0031308 ? (12.92 * c) : (1.055 * Math.pow(c, 0.416666
 """
 
 INDEX_DICT = {
-    'nvdi':evalscript_nvdi,
+    'ndvi':evalscript_ndvi,
     'evi':evalscript_evi,
     'gndvi':evalscript_gndvi,
     'ndre':evalscript_ndre,

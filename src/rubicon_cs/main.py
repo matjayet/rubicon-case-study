@@ -15,7 +15,7 @@ from rubicon_cs.utils import (
     get_scaled_dimensions, pad_to_multiple, stitch_patches
 )
 
-def geotiff_for_veg_index(AOI, date_range, veg_index='nvdi', cloud_cover_limit=20):
+def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=20):
     """
     Generate a multi-band GeoTIFF file containing vegetation index images
     for a given area and date range.
@@ -23,7 +23,7 @@ def geotiff_for_veg_index(AOI, date_range, veg_index='nvdi', cloud_cover_limit=2
     Parameters:
         AOI (dict): Area of interest in GeoJSON format.
         date_range (tuple): Tuple of (start_date, end_date) in 'YYYY-MM-DD' format.
-        veg_index (str): Vegetation index to use, default is 'nvdi'.
+        veg_index (str): Vegetation index to use, default is 'ndvi'.
         cloud_cover_limit (int): Max allowed cloud cover percentage.
     """
 

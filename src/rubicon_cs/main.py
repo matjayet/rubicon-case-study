@@ -32,10 +32,9 @@ def geotiff_for_veg_index(AOI, date_range, veg_index='ndvi', cloud_cover_limit=2
 
     # Set up config
     config = SHConfig()
-    config.sh_client_id = st.secrets["SH_CLIENT_ID"]
-    config.sh_client_id = st.secrets["SH_CLIENT_SECRET"]
-    config.save()
-
+    config.sh_client_id = get_secret("SH_CLIENT_ID")
+    config.sh_client_secret = get_secret("SH_CLIENT_SECRET")
+    
 
     # Catalog to find acquisition dates
     catalog = SentinelHubCatalog(config=config)
@@ -199,8 +198,8 @@ def semantic_segmentation_large_image(image, model, device, patch_size=512):
 
 def get_secret(secret_name):
     # Vérifier si l'application tourne sur Streamlit Cloud
-    if secret_name in st.secrets:
+    try:
         return st.secrets[secret_name]
-    else:
+    except:
         # Sinon, essayer de récupérer depuis os.environ (local ou autre environnement)
         return os.environ[secret_name]
